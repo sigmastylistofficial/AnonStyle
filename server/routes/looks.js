@@ -75,7 +75,7 @@ router.post('/', [auth, upload.fields([{ name: 'mainImage', maxCount: 1 }, { nam
     // Process Main Image
     if (files['mainImage'] && files['mainImage'][0]) {
       mainImageLocalPath = files['mainImage'][0].path;
-      mainImageUrl = `http://localhost:${process.env.PORT}/uploads/${files['mainImage'][0].filename}`;
+      mainImageUrl = `/uploads/${files['mainImage'][0].filename}`;
       
       // AI Safety Check
       const isSafe = await checkImageSafety(mainImageLocalPath);
@@ -103,7 +103,7 @@ router.post('/', [auth, upload.fields([{ name: 'mainImage', maxCount: 1 }, { nam
         let itemImageUrl = link.imageUrl || '';
         
         if (link.imageIndex !== undefined && link.imageIndex !== null && itemImages[link.imageIndex]) {
-             itemImageUrl = `http://localhost:${process.env.PORT}/uploads/${itemImages[link.imageIndex].filename}`;
+             itemImageUrl = `/uploads/${itemImages[link.imageIndex].filename}`;
         }
         
         return {

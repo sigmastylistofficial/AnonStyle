@@ -65,7 +65,7 @@ const LookDetail = () => {
                         transition={{ duration: 0.6 }}
                     >
                         <div style={{ borderRadius: '8px', overflow: 'hidden' }}>
-                            <img src={look.imageUrl} alt={look.title} style={{ width: '100%', display: 'block' }} />
+                            <img src={getImageUrl(look.imageUrl)} alt={look.title} style={{ width: '100%', display: 'block' }} />
                         </div>
                     </motion.div>
 
@@ -78,7 +78,7 @@ const LookDetail = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
                             <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#333' }}>
                                 {look.user.mainImage ? (
-                                    <img src={look.user.mainImage} alt={look.user.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={getImageUrl(look.user.mainImage)} alt={look.user.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 ) : (
                                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         {look.user.username[0].toUpperCase()}
@@ -126,7 +126,7 @@ const LookDetail = () => {
                                 >
                                     {link.imageUrl ? (
                                         <div style={{ width: '50px', height: '50px', borderRadius: '4px', overflow: 'hidden', flexShrink: 0 }}>
-                                            <img src={link.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            <img src={getImageUrl(link.imageUrl)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         </div>
                                     ) : (
                                         <div style={{ width: '50px', height: '50px', borderRadius: '4px', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>

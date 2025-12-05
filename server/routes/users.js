@@ -38,7 +38,7 @@ router.put('/profile', [auth, upload.single('mainImage')], async (req, res) => {
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
     if (req.file) {
-      user.mainImage = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`;
+      user.mainImage = `/uploads/${req.file.filename}`;
     }
     
     if (req.body.caption) {

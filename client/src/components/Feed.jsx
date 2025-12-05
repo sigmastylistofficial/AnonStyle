@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ExternalLink, User as UserIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/image';
 
 const Feed = ({ searchQuery = '' }) => {
     const [looks, setLooks] = useState([]);
@@ -71,7 +72,7 @@ const Feed = ({ searchQuery = '' }) => {
                             <Link to={`/u/${look.user.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'inherit' }}>
                                 <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#333', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     {look.user.mainImage ? (
-                                        <img src={look.user.mainImage} alt={look.user.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <img src={getImageUrl(look.user.mainImage)} alt={look.user.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                     ) : (
                                         <span style={{ fontSize: '12px' }}>{look.user.username[0].toUpperCase()}</span>
                                     )}
@@ -82,7 +83,7 @@ const Feed = ({ searchQuery = '' }) => {
 
                         {/* Main Image */}
                         <div style={{ marginBottom: '15px', borderRadius: '8px', overflow: 'hidden' }}>
-                            <img src={look.imageUrl} alt={look.title} style={{ width: '100%', display: 'block' }} />
+                            <img src={getImageUrl(look.imageUrl)} alt={look.title} style={{ width: '100%', display: 'block' }} />
                         </div>
 
                         {/* Actions */}
@@ -123,7 +124,7 @@ const Feed = ({ searchQuery = '' }) => {
                                     }}
                                 >
                                     {link.imageUrl && (
-                                        <img src={link.imageUrl} alt="" style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }} />
+                                        <img src={getImageUrl(link.imageUrl)} alt="" style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }} />
                                     )}
                                     {link.title}
                                     <ExternalLink size={10} />

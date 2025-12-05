@@ -4,11 +4,13 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Trash2, Settings as SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/image';
 
 const Profile = () => {
     const { username } = useParams();
     const [profileData, setProfileData] = useState(null);
     const [looks, setLooks] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(false);
 
     useEffect(() => {
@@ -17,84 +19,71 @@ const Profile = () => {
                 const res = await axios.get(`https://anonstyle-api.onrender.com/api/looks/user/${username}`);
                 setProfileData(res.data.user);
                 setLooks(res.data.looks);
+                setLoading(false);
 
-                // Check ownership
+                // Check if current user is owner
                 const token = localStorage.getItem('token');
                 if (token) {
                     const meRes = await axios.get('https://anonstyle-api.onrender.com/api/users/me', {
                         headers: { 'x-auth-token': token }
                     });
-                    if (meRes.data.username === username) setIsOwner(true);
+                    if (meRes.data.username === username) {
+                        setIsOwner(true);
+                    }
                 }
             } catch (err) {
                 console.error(err);
+                setLoading(false);
             }
         };
         fetchProfile();
     }, [username]);
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this look?')) return;
-        try {
-            await axios.delete(`https://anonstyle-api.onrender.com/api/looks/${id}`, {
-                headers: { 'x-auth-token': localStorage.getItem('token') }
-            });
-            setLooks(looks.filter(look => look._id !== id));
-        } catch (err) {
-            console.error(err);
-            alert('Error deleting look');
+        if (window.confirm('Are you sure you want to delete this look?')) {
+            try {
+                await axios.delete(`https://anonstyle-api.onrender.com/api/looks/${id}`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                setLooks(looks.filter(look => look._id !== id));
+            } catch (err) {
+                console.error(err);
+                alert('Error deleting look');
+            }
         }
     };
 
-    if (!profileData) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>Loading...</div>;
+    if (loading) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>Loading profile...</div>;
+    if (!profileData) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>User not found</div>;
 
     return (
-        <div style={{ minHeight: '100vh', paddingTop: '120px', paddingBottom: '100px' }}>
+        <div style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '100px' }}>
             <div className="container">
 
                 {/* Profile Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ marginBottom: '100px', textAlign: 'center' }}
+                    style={{ textAlign: 'center', marginBottom: '60px' }}
                 >
-                    {profileData.mainImage ? (
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            style={{
-                                width: '100%',
-                                maxWidth: '600px',
-                                height: '400px',
-                                margin: '0 auto 30px',
-                                overflow: 'hidden',
-                                borderRadius: '4px'
-                            }}
-                        >
-                            <img src={profileData.mainImage} alt="Main" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                            style={{
-                                width: '100px',
-                                height: '100px',
-                                background: '#222',
-                                borderRadius: '50%',
-                                margin: '0 auto 30px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '32px',
-                                fontFamily: 'var(--font-serif)',
-                                fontStyle: 'italic',
-                                cursor: 'default'
-                            }}
-                        >
-                            {username[0].toUpperCase()}
-                        </motion.div>
-                    )}
+                    <div style={{
+                        width: '120px',
+                        height: '120px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        margin: '0 auto 20px',
+                        background: '#222',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '2px solid rgba(255,255,255,0.1)'
+                    }}>
+                        {profileData.mainImage ? (
+                            <img src={getImageUrl(profileData.mainImage)} alt={username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                            <span style={{ fontSize: '40px', color: '#555' }}>{username[0].toUpperCase()}</span>
+                        )}
+                    </div>
 
                     <h1 style={{ fontSize: '48px', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
                         {username}
@@ -109,9 +98,13 @@ const Profile = () => {
                             {profileData.mainImageCaption}
                         </p>
                     )}
-                    <p style={{ color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.2em', fontSize: '12px' }}>
-                        Digital Archive
-                    </p>
+
+                    <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '14px' }}>
+                        <span>{looks.length} Looks</span>
+                        {/* Placeholder for followers/following */}
+                        <span>0 Followers</span>
+                        <span>0 Following</span>
+                    </div>
                 </motion.div>
 
                 {/* Looks Grid */}

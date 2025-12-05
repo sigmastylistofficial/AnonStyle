@@ -73,7 +73,7 @@ const Dashboard = () => {
             formData.append('links', JSON.stringify(linksToSend));
 
             const config = { headers: { 'x-auth-token': localStorage.getItem('token'), 'Content-Type': 'multipart/form-data' } };
-            await axios.post('http://localhost:4000/api/looks', formData, config);
+            await axios.post('https://anonstyle-api.onrender.com/api/looks', formData, config);
             alert('Look created!');
             setLookData({ title: '', links: [{ title: '', url: '', image: null }] });
             setLookImage(null);
@@ -91,7 +91,7 @@ const Dashboard = () => {
             if (profileImage) formData.append('mainImage', profileImage);
 
             const config = { headers: { 'x-auth-token': localStorage.getItem('token'), 'Content-Type': 'multipart/form-data' } };
-            await axios.put('http://localhost:4000/api/users/profile', formData, config);
+            await axios.put('https://anonstyle-api.onrender.com/api/users/profile', formData, config);
             alert('Profile updated!');
         } catch (err) {
             console.error(err);

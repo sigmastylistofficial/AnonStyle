@@ -12,7 +12,7 @@ const Register = () => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:4000/api/auth/register', formData);
+            const res = await axios.post('https://anonstyle-api.onrender.com/api/auth/register', formData);
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');
         } catch (err) {

@@ -22,7 +22,7 @@ const LookDetail = () => {
                 // Let's try to fetch from feed and find it? No, inefficient.
                 // I will add the endpoint in the next step.
                 // For now, I will write the frontend code assuming the endpoint exists.
-                const res = await axios.get(`http://localhost:4000/api/looks/${id}`);
+                const res = await axios.get(`https://anonstyle-api.onrender.com/api/looks/${id}`);
                 setLook(res.data);
                 setLoading(false);
             } catch (err) {
@@ -35,7 +35,7 @@ const LookDetail = () => {
 
     const handleLike = async () => {
         try {
-            const res = await axios.put(`http://localhost:4000/api/looks/${id}/like`, {}, {
+            const res = await axios.put(`https://anonstyle-api.onrender.com/api/looks/${id}/like`, {}, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
             setLook({ ...look, likes: res.data });

@@ -16,7 +16,7 @@ const Navbar = () => {
         if (token) {
             setIsLoggedIn(true);
             try {
-                fetch('http://localhost:4000/api/users/me', {
+                fetch('https://anonstyle-api.onrender.com/api/users/me', {
                     headers: { 'x-auth-token': token }
                 })
                     .then(res => {

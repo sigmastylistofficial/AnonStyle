@@ -14,8 +14,8 @@ const Feed = ({ searchQuery = '' }) => {
             try {
                 setLoading(true);
                 const url = searchQuery
-                    ? `http://localhost:4000/api/looks/feed?q=${encodeURIComponent(searchQuery)}`
-                    : 'http://localhost:4000/api/looks/feed';
+                    ? `https://anonstyle-api.onrender.com/api/looks/feed?q=${encodeURIComponent(searchQuery)}`
+                    : 'https://anonstyle-api.onrender.com/api/looks/feed';
 
                 const res = await axios.get(url);
                 setLooks(res.data);
@@ -36,7 +36,7 @@ const Feed = ({ searchQuery = '' }) => {
 
     const handleLike = async (lookId) => {
         try {
-            const res = await axios.put(`http://localhost:4000/api/looks/${lookId}/like`, {}, {
+            const res = await axios.put(`https://anonstyle-api.onrender.com/api/looks/${lookId}/like`, {}, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
 

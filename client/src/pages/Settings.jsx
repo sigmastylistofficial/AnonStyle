@@ -17,7 +17,7 @@ const Settings = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get('http://localhost:4000/api/users/me', {
+                const res = await axios.get('https://anonstyle-api.onrender.com/api/users/me', {
                     headers: { 'x-auth-token': localStorage.getItem('token') }
                 });
                 setUser(res.data);
@@ -45,7 +45,7 @@ const Settings = () => {
             formData.append('caption', profileForm.caption);
             // Image handling would go here if we added a file input to this form
 
-            await axios.put('http://localhost:4000/api/users/profile', formData, {
+            await axios.put('https://anonstyle-api.onrender.com/api/users/profile', formData, {
                 headers: { 'x-auth-token': localStorage.getItem('token'), 'Content-Type': 'multipart/form-data' }
             });
             alert('Profile updated');
@@ -58,7 +58,7 @@ const Settings = () => {
     const updatePassword = async (e) => {
         e.preventDefault();
         try {
-            await axios.put('http://localhost:4000/api/users/password', passwordForm, {
+            await axios.put('https://anonstyle-api.onrender.com/api/users/password', passwordForm, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
             alert('Password updated');
@@ -73,7 +73,7 @@ const Settings = () => {
         const newSettings = { ...settingsForm, [key]: value };
         setSettingsForm(newSettings);
         try {
-            await axios.put('http://localhost:4000/api/users/settings', { [key]: value }, {
+            await axios.put('https://anonstyle-api.onrender.com/api/users/settings', { [key]: value }, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
         } catch (err) {

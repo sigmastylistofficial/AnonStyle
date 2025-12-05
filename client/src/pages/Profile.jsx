@@ -14,14 +14,14 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/api/looks/user/${username}`);
+                const res = await axios.get(`https://anonstyle-api.onrender.com/api/looks/user/${username}`);
                 setProfileData(res.data.user);
                 setLooks(res.data.looks);
 
                 // Check ownership
                 const token = localStorage.getItem('token');
                 if (token) {
-                    const meRes = await axios.get('http://localhost:4000/api/users/me', {
+                    const meRes = await axios.get('https://anonstyle-api.onrender.com/api/users/me', {
                         headers: { 'x-auth-token': token }
                     });
                     if (meRes.data.username === username) setIsOwner(true);
@@ -36,7 +36,7 @@ const Profile = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this look?')) return;
         try {
-            await axios.delete(`http://localhost:4000/api/looks/${id}`, {
+            await axios.delete(`https://anonstyle-api.onrender.com/api/looks/${id}`, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
             setLooks(looks.filter(look => look._id !== id));

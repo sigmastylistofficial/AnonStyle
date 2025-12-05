@@ -149,7 +149,7 @@ const Profile = () => {
                                         style={{ width: '100%', height: '100%', overflow: 'hidden', borderRadius: '4px' }}
                                     >
                                         <img
-                                            src={look.imageUrl}
+                                            src={getImageUrl(look.imageUrl)}
                                             alt={look.title}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                         />

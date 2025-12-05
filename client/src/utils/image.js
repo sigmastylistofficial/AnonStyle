@@ -1,8 +1,18 @@
 export const getImageUrl = (path) => {
   if (!path) return '';
-  if (path.includes('localhost:4000')) {
-      return path.replace('http://localhost:4000', 'https://anonstyle-api.onrender.com');
+  
+  // Fix legacy localhost URLs (any port, http/https)
+  if (path.includes('localhost') || path.includes('127.0.0.1')) {
+      // Extract the path part after /uploads/
+      const parts = path.split('/uploads/');
+      if (parts.length > 1) {
+          return `https://anonstyle-api.onrender.com/uploads/${parts[1]}`;
+      }
   }
+
   if (path.startsWith('http')) return path;
-  return `https://anonstyle-api.onrender.com${path}`;
+  
+  // Ensure path starts with / if it doesn't
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `https://anonstyle-api.onrender.com${cleanPath}`;
 };

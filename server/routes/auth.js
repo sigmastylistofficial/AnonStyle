@@ -8,8 +8,12 @@ const User = require('../models/User');
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
   try {
+    console.log('Registering user:', username);
     let user = await User.findOne({ username });
-    if (user) return res.status(400).json({ msg: 'User already exists' });
+    if (user) {
+      console.log('User already exists');
+      return res.status(400).json({ msg: 'User already exists' });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -21,6 +25,7 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
+    console.log('User saved:', user.id);
 
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
@@ -28,8 +33,8 @@ router.post('/register', async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error('Registration Error:', err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 

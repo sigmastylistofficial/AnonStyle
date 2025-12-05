@@ -1,0 +1,98 @@
+# Instrukcja Deployu AnonStyle (MERN Stack)
+
+Twoja aplikacja to "MERN Stack" (MongoDB, Express, React, Node.js). Składa się z dwóch części:
+1. **Frontend (Client)**: To, co widzi użytkownik.
+2. **Backend (Server)**: To, co przetwarza dane, łączy się z bazą i AI.
+
+GitHub Pages hostuje **TYLKO Frontend**. Backend musisz wrzucić na inny darmowy serwis (np. Render.com).
+
+Oto kompletny proces krok po kroku:
+
+---
+
+## Krok 1: Wrzucenie kodu na GitHub (Już to przygotowałem!)
+
+Wykonałem lokalnie inicjalizację repozytorium. Teraz musisz tylko wypchnąć kod do internetu.
+Wpisz w terminalu (w głównym folderze projektu):
+
+```bash
+git push -u origin main
+```
+
+*(Jeśli zapyta o hasło, użyj swojego Personal Access Token z GitHuba, a nie hasła do konta).*
+
+---
+
+## Krok 2: Deploy Backendu (Serwer) - Render.com (Darmowy)
+
+GitHub Pages nie obsłuży Twojego serwera `server.js`. Użyjemy Render.
+
+1. Załóż konto na [Render.com](https://render.com) (zaloguj się przez GitHub).
+2. Kliknij **"New +"** -> **"Web Service"**.
+3. Wybierz repozytorium `AnonStyle`.
+4. Skonfiguruj:
+   - **Name**: `anonstyle-api` (lub podobne)
+   - **Root Directory**: `server` (bardzo ważne! Twój backend jest w folderze server)
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+5. Zjedź niżej do **"Environment Variables"** i dodaj:
+   - `MONGO_URI`: (Twój link do MongoDB z .env)
+   - `JWT_SECRET`: (Twój sekret z .env)
+   - `GEMINI_API_KEY`: (Twój klucz AI z .env)
+   - `PORT`: `4000` (lub zostaw domyślne, Render sam przydzieli port)
+6. Kliknij **"Create Web Service"**.
+7. Po chwili otrzymasz link do swojego API (np. `https://anonstyle-api.onrender.com`). **Skopiuj go!**
+
+---
+
+## Krok 3: Konfiguracja Frontendu pod Deploy
+
+Teraz musimy powiedzieć Frontendowi, żeby łączył się z Twoim nowym serwerem na Renderze, a nie z `localhost`.
+
+1. Wejdź w plik `client/src/config.js` (lub stwórz go, jeśli nie ma) i ustaw adres API na ten z Rendera.
+   *Najprościej:* Wyszukaj w kodzie `http://localhost:4000` i zamień na swój nowy link z Rendera (np. `https://anonstyle-api.onrender.com`).
+   *(W plikach: Navbar.jsx, Feed.jsx, Login.jsx, Register.jsx, Settings.jsx, LookDetail.jsx, Profile.jsx)*
+
+---
+
+## Krok 4: Deploy Frontendu - GitHub Pages
+
+1. Otwórz `client/package.json`.
+2. Dodaj na samej górze (nad "name"):
+   ```json
+   "homepage": "https://sigmastylistofficial.github.io/AnonStyle",
+   ```
+3. W `scripts` dodaj:
+   ```json
+   "predeploy": "npm run build",
+   "deploy": "gh-pages -d dist"
+   ```
+4. Zainstaluj `gh-pages` w folderze client:
+   ```bash
+   cd client
+   npm install gh-pages --save-dev
+   ```
+5. Wypchnij aplikację:
+   ```bash
+   npm run deploy
+   ```
+
+To wszystko! Twoja aplikacja będzie dostępna pod adresem: `https://sigmastylistofficial.github.io/AnonStyle`
+
+---
+
+## Podsumowanie komend Git (które prosiłeś):
+
+Wykonałem je już lokalnie (z `git add .` zamiast samego README, żeby zapisać cały kod):
+
+```bash
+echo "# AnonStyle" >> README.md
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sigmastylistofficial/AnonStyle.git
+# Teraz Ty wpisz:
+git push -u origin main
+```

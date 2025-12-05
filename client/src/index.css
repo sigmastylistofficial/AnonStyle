@@ -1,79 +1,184 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --accent-color: #2997ff;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-bg: #1c1c1e;
+  --bg-color: #030303;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --accent-color: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --card-bg: #0a0a0a;
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
   background-color: var(--bg-color);
-  color: var(--text-color);
-  -webkit-font-smoothing: antialiased;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
   overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  transition: opacity 0.3s ease;
 }
 
 button {
-  font-family: inherit;
+  font-family: var(--font-sans);
   cursor: pointer;
   border: none;
-  outline: none;
+  background: none;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
+/* Utilities */
+.text-serif {
+  font-family: var(--font-serif);
+}
+
+.text-sans {
+  font-family: var(--font-sans);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Glassmorphism Refined */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid var(--glass-border);
-  border-radius: 20px;
 }
 
-.btn-primary {
-  background: var(--accent-color);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 500;
+/* Input Styles */
+.input-minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: var(--text-primary);
+  padding: 16px 0;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  border-radius: 0;
+}
+
+.input-minimal:focus {
+  outline: none;
+  border-bottom-color: var(--text-primary);
+}
+
+.input-minimal::placeholder {
+  color: #444;
+}
+
+/* Button Styles */
+.btn-fashion {
+  background: var(--text-primary);
+  color: var(--bg-color);
+  padding: 16px 32px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-fashion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+.btn-outline {
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 15px 31px;
+  /* 1px less for border */
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(41, 151, 255, 0.4);
+.btn-outline:hover {
+  border-color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.input-field {
-  background: var(--card-bg);
-  border: 1px solid var(--glass-border);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 12px;
-  width: 100%;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .hero-title {
+    font-size: 48px !important;
+  }
+
+  .statement-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  h1 {
+    font-size: 36px !important;
+  }
+
+  h2 {
+    font-size: 28px !important;
+  }
+
+  h3 {
+    font-size: 24px !important;
+  }
 }
 
-.input-field:focus {
-  border-color: var(--accent-color);
+.hero-title {
+  font-size: clamp(60px, 10vw, 160px);
 }

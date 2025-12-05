@@ -11,7 +11,7 @@ import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/AnonStyle">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
